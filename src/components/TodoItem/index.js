@@ -1,14 +1,15 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import './index.css'
 
 class TodoItem extends Component {
-  render() {
-    const {eachItem, selected, checkUp} = this.props
-    const {id, title, completed} = eachItem
+  isCheckedTodo = () => {
+    const {eachItem, checkUp} = this.props
+    const {id} = eachItem
+    checkUp(id)
+  }
 
-    const isCheckedTodo = () => {
-      checkUp(id)
-    }
+  render() {
+    const {eachItem, selected} = this.props
 
     return (
       <>
@@ -16,11 +17,11 @@ class TodoItem extends Component {
           <input
             type="checkbox"
             className="checkbox"
-            checked={`${selected}`}
-            id="todoItem"
-            onClick={this.isCheckedTodo}
+            checked={selected} // Use the selected prop directly for checked attribute
+            id={`todoItem_${eachItem.id}`} // Unique ID for each checkbox
+            onChange={this.isCheckedTodo} // Use onChange for checkboxes
           />
-          <label className="label" htmlFor="todoItem">
+          <label className="label" htmlFor={`todoItem_${eachItem.id}`}>
             {eachItem.title}
           </label>
           <button type="button" className="edit-button">
